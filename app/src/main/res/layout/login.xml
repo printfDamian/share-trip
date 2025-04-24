@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EAF0EC"
-    tools:context=".MainActivity"
+    tools:context=".LoginActivity"
     tools:layout_editor_absoluteX="-10dp"
     tools:layout_editor_absoluteY="-3dp">
 
@@ -14,23 +14,22 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Entrar"
+        android:text="@string/emailHint"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.528"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.35" />
+        app:layout_constraintVertical_bias="0.342" />
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/email"
         style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox"
         android:layout_width="250dp"
         android:layout_height="70dp"
         android:ems="10"
-        android:hint="email"
+        android:hint="@string/emailHint"
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,12 +39,12 @@
         app:layout_constraintVertical_bias="0.533" />
 
     <EditText
-        android:id="@+id/editTextText2"
+        android:id="@+id/password"
         style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox"
         android:layout_width="254dp"
         android:layout_height="60dp"
         android:ems="10"
-        android:hint="password"
+        android:hint="@string/passwordHint"
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,29 +54,29 @@
         app:layout_constraintVertical_bias="0.655" />
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="238dp"
+        android:id="@+id/link"
+        android:layout_width="242dp"
         android:layout_height="57dp"
         android:clickable="true"
-        android:text="Não tem uma conta?Registar"
+        android:text="@string/registerLink"
         android:textAlignment="center"
         android:textColor="#EB1345A8"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.423" />
+        app:layout_constraintVertical_bias="0.421" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/LoginButton"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="250dp"
         android:layout_height="52dp"
         android:background="#3F51B5"
         android:backgroundTint="#3F51B5"
-        android:text="Login"
+        android:text="@string/loginButton"
         android:textColorLink="#593D3D"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -97,7 +96,7 @@
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.572"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.242" />
@@ -108,10 +107,10 @@
         android:layout_height="178dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.551"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.028"
+        app:layout_constraintVertical_bias="0.047"
         app:srcCompat="@drawable/logo_nobg" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

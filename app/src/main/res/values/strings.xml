@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">share-trip_project</string>
+    <string name="app_name">Share Trip</string>
+    <string name="login_label">Entrar</string>
+    <string name="register_label">Registar</string>
+    <string name="registerLink">Não tem uma conta? Registar</string>
+    <string name="loginLink">Já tem uma conta? Entrar</string>
+    <string name="emailHint"> email</string>
+    <string name="passwordHint">senha</string>
+    <string name="loginButton">Entrar</string>
+    <string name="registerButton">Registar</string>
 </resources>
