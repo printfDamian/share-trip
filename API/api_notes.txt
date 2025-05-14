@@ -1,0 +1,18 @@
+Autenticação
+POST /auth/register – Registo de utilizador
+POST /auth/login – Login e geração de token
+
+Utilizadores
+GET /users/:id – Obter perfil de utilizador
+GET /users/search?q= – Pesquisa de utilizadores
+POST /users/:id/friends – Adicionar amigo
+DELETE /users/:id/friends/:friendId – Remover amigo
+
+Viagens
+GET /trips – Feed de viagens públicas
+GET /trips/friends – Feed de viagens dos amigos
+POST /trips – Criar nova viagem
+PUT /trips/:id – Editar viagem
+DELETE /trips/:id – Apagar viagem
+
+AI
