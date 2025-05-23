@@ -1,25 +1,43 @@
 const mysql = require('mysql2');
-const dbConfig = require('../../config/dbConfig');
+const dbConfig = require('../config/dbConfig');
 
-class sessions {
+class Session {
     constructor() {
         this.connection = mysql.createPool(dbConfig);
     }
 
     async findAll() {
-        const [rows] = await this.connection.execute('SELECT * FROM chats');
+        const [rows] = await this.connection.execute('SELECT * FROM sessions');
         return rows;
     }
+
     async findById(id) {
-        const [rows] = await this.connection.execute('SELECT * FROM chats WHERE id = ?', [id]);
+        const [rows] = await this.connection.execute('SELECT * FROM sessions WHERE id = ?', [id]);
         return rows[0];
     }
+
     async create(sessionData) {
-        const { user_id, trip_id, message } = sessionData;
+        const { state, createdAt, modifiedAt } = sessionData;
         const [result] = await this.connection.execute(
-            'INSERT INTO chats (user_id, message) VALUES (?, ?, ?)',
-            [user_id, trip_id, message]
+            'INSERT INTO sessions (state, createdAt, modifiedAt) VALUES (?, ?, ?)',
+            [state, createdAt, modifiedAt]
         );
         return result.insertId;
     }
+
+    async update(id, sessionData) {
+        const { state, createdAt, modifiedAt } = sessionData;
+        const [result] = await this.connection.execute(
+            'UPDATE sessions SET state = ?, createdAt = ?, modifiedAt = ? WHERE id = ?',
+            [state, createdAt, modifiedAt, id]
+        );
+        return result.affectedRows;
+    }
+
+    async delete(id) {
+        const [result] = await this.connection.execute('DELETE FROM sessions WHERE id = ?', [id]);
+        return result.affectedRows;
+    }
 }
+
+module.exports = new Session();
