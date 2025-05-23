@@ -1,5 +1,5 @@
 const mysql = require('mysql2');
-const dbConfig = require('../config/dbConfig');
+const dbConfig = require('../../config/dbConfig');
 
 class Types {
     constructor() {
