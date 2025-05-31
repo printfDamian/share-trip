@@ -1,5 +1,5 @@
 const mysql = require('mysql2');
-const dbConfig = require('../config/dbConfig');
+const dbConfig = require('../../config/dbConfig');
 
 class Session {
     constructor() {
@@ -16,26 +16,39 @@ class Session {
         return rows[0];
     }
 
+    async findByUserId(userId) {
+        const [rows] = await this.connection.execute(
+            'SELECT * FROM sessions WHERE user_id = ? AND expires_at > NOW() ORDER BY created_at DESC',
+            [userId]
+        );
+        return rows;
+    }
+
     async create(sessionData) {
-        const { state, createdAt, modifiedAt } = sessionData;
+        const { user_id, dailyLimit = 25, refreshLimit } = sessionData;
         const [result] = await this.connection.execute(
-            'INSERT INTO sessions (state, createdAt, modifiedAt) VALUES (?, ?, ?)',
-            [state, createdAt, modifiedAt]
+            'INSERT INTO sessions (user_id, dailyLimit, refreshLimit) VALUES (?, ?, ?)',
+            [user_id, dailyLimit, refreshLimit]
         );
         return result.insertId;
     }
 
     async update(id, sessionData) {
-        const { state, createdAt, modifiedAt } = sessionData;
+        const { dailyLimit, refreshLimit } = sessionData;
         const [result] = await this.connection.execute(
-            'UPDATE sessions SET state = ?, createdAt = ?, modifiedAt = ? WHERE id = ?',
-            [state, createdAt, modifiedAt, id]
+            'UPDATE sessions SET dailyLimit = ?, refreshLimit = ? WHERE id = ?',
+            [dailyLimit, refreshLimit, id]
         );
         return result.affectedRows;
     }
 
     async delete(id) {
         const [result] = await this.connection.execute('DELETE FROM sessions WHERE id = ?', [id]);
+        return result.affectedRows;
+    }
+
+    async deleteExpired() {
+        const [result] = await this.connection.execute('DELETE FROM sessions WHERE expires_at < NOW()');
         return result.affectedRows;
     }
 }

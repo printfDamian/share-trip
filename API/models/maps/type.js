@@ -1,13 +1,13 @@
 const mysql = require('mysql2');
 const dbConfig = require('../../config/dbConfig');
 
-class Types {
+class Type {
     constructor() {
         this.connection = mysql.createPool(dbConfig);
     }
 
     async findAll() {
-        const [rows] = await this.connection.execute('SELECT * FROM types');
+        const [rows] = await this.connection.execute('SELECT * FROM types ORDER BY name ASC');
         return rows;
     }
 
@@ -16,20 +16,25 @@ class Types {
         return rows[0];
     }
 
+    async findByName(name) {
+        const [rows] = await this.connection.execute('SELECT * FROM types WHERE name = ?', [name]);
+        return rows[0];
+    }
+
     async create(typeData) {
-        const { type, description } = typeData;
+        const { name, description } = typeData;
         const [result] = await this.connection.execute(
-            'INSERT INTO types (type, description) VALUES (?, ?)',
-            [type, description]
+            'INSERT INTO types (name, description) VALUES (?, ?)',
+            [name, description]
         );
         return result.insertId;
     }
 
     async update(id, typeData) {
-        const { type, description } = typeData;
+        const { name, description } = typeData;
         const [result] = await this.connection.execute(
-            'UPDATE types SET type = ?, description = ? WHERE id = ?',
-            [type, description, id]
+            'UPDATE types SET name = ?, description = ? WHERE id = ?',
+            [name, description, id]
         );
         return result.affectedRows;
     }
@@ -40,4 +45,4 @@ class Types {
     }
 }
 
-module.exports = new Types();
+module.exports = new Type();
