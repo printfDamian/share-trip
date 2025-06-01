@@ -1,7 +1,7 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-const path = require("path");
-require("dotenv").config();
+const path = require('path');
+require('dotenv').config({path: 'API/config'});
 const morgan = require('morgan');
 
 // === App Config ===
@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
 // Routes & EndPoints
-app.use(require('./routes/routes'));
+app.use(require('./api/routes'));
 
 app.listen(port);
-console.log("Server running on http://localhost:" + port);
+console.log('Server running on http://localhost:' + port);
