@@ -2,24 +2,24 @@ const express = require('express');
 const router = express.Router();
 
 // chatBot
-router.use(require('./chatBot/chat'));
-router.use(require('./chatBot/memory'));
-router.use(require('./chatBot/session'));
+router.use('/chatbot', require('./chatBot/chat'));
+router.use('/chatbot', require('./chatBot/memory'));
+router.use('/chatbot', require('./chatBot/session'));
 
 // map
-router.use(require('./map/location'));
-router.use(require('./map/poiContact'));
-router.use(require('./map/pointOfInterest'));
-router.use(require('./map/trip'));
-router.use(require('./map/type'));
+router.use('/map', require('./map/location'));
+router.use('/map', require('./map/poiContact'));
+router.use('/map', require('./map/pointOfInterest'));
+router.use('/map', require('./map/trip'));
+router.use('/map', require('./map/type'));
 
 // social
-router.use(require('./social/comment'));
-router.use(require('./social/image'));
-router.use(require('./social/like'));
+router.use('/social', require('./social/comment'));
+router.use('/social', require('./social/image'));
+router.use('/social', require('./social/like'));
 
 // user
-router.use(require('./user/post'));
-router.use(require('./user/user'));
+router.use('/users', require('./user/post'));
+router.use('/users', require('./user/user'));
 
-module.exports = report;
+module.exports = router;

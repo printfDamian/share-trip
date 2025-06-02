@@ -1,4 +1,4 @@
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 const dbConfig = require('../../config/dbConfig');
 
 class User {
@@ -16,20 +16,25 @@ class User {
         return rows[0];
     }
 
+    async findByEmail(email) {
+        const [rows] = await this.connection.execute('SELECT * FROM users WHERE email = ?', [email]);
+        return rows[0];
+    }
+
     async create(userData) {
-        const { name, email, password, phone } = userData;
+        const { name, email, password } = userData;
         const [result] = await this.connection.execute(
-            'INSERT INTO users (name, email, password, phone) VALUES (?, ?, ?, ?)',
-            [name, email, password, phone]
+            'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
+            [name, email, password]
         );
         return result.insertId;
     }
 
     async update(id, userData) {
-        const { name, email, password, phone } = userData;
+        const { name, email, password } = userData;
         const [result] = await this.connection.execute(
-            'UPDATE users SET name = ?, email = ?, password = ?, phone = ? WHERE id = ?',
-            [name, email, password, phone, id]
+            'UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?',
+            [name, email, password, id]
         );
         return result.affectedRows;
     }

@@ -7,7 +7,6 @@ CREATE TABLE IF NOT EXISTS users (
     name VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    phone VARCHAR(20) NULL,
     active TINYINT(1) NOT NULL DEFAULT 1,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -274,13 +273,12 @@ VALUES (
     );
 
 -- Insert ShareTripBot user
-INSERT IGNORE INTO users (name, email, password, phone, active)
+INSERT IGNORE INTO users (name, email, password, active)
 VALUES (
         'ShareTripBot',
         'bot@sharetrip.local',
         '$2b$10$XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
         -- replace with actual bcrypt hash
-        NULL,
         1
     );
 

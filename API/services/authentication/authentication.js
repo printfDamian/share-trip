@@ -1,21 +1,20 @@
-require('dotenv').config({ path: 'API/config' });
+require('dotenv').config({ path: 'config/.env' });
 const bcrypt = require('bcryptjs');
-const User = require('../../models/users/users');
+const User = require('../../models/user/userModel');
 
-async function register(req, res, next) {
+async function register(req, res) {
     try {
         let body;
 
         // Recolha dos dados
         if (req.body) {
             try {
-                // If body is string, parse it; if already object, use directly
                 body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-            } catch (e) {
+            } catch (error) {
                 return res.status(406).json({
                     success: false,
                     message: "Only 'application/json' content type supported." +
-                        (process.env.DEV_MODE === 'TRUE' ? ' Dev Error: ' + e.message : '')
+                        (process.env.DEV_MODE === 'TRUE' ? ' Dev Error: ' + error.message : '')
                 });
             }
         } else {
@@ -25,7 +24,7 @@ async function register(req, res, next) {
             });
         }
 
-        const { name, email, password, phone } = body;
+        const { name, email, password } = body;
 
         // Análise e formatação dos dados
         if (!name || !email || !password) {
@@ -35,7 +34,6 @@ async function register(req, res, next) {
             });
         }
 
-        // Validate email format
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             return res.status(400).json({
@@ -44,18 +42,15 @@ async function register(req, res, next) {
             });
         }
 
-        // Validate password strength
-        if (password.length < 8) {
+        if (password.length < 8) { // Alterar caso seja necessário acrescentar mais validações
             return res.status(400).json({
                 success: false,
                 message: "Password must be at least 8 characters long"
             });
         }
 
-        // Format data
         const formattedName = name.trim();
         const formattedEmail = email.trim().toLowerCase();
-        const formattedPhone = phone ? phone.trim() : null;
 
         // Verificações Base de Dados
         const existingUser = await User.findByEmail(formattedEmail);
@@ -67,7 +62,7 @@ async function register(req, res, next) {
         }
 
         // Encriptar conteudo sensivel Bcrypt
-        const saltRounds = 12;
+        const saltRounds = parseInt(process.env.BCRYPT_SALT) ?? 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
         // Enviar para a BD
@@ -75,7 +70,6 @@ async function register(req, res, next) {
             name: formattedName,
             email: formattedEmail,
             password: hashedPassword,
-            phone: formattedPhone
         };
 
         const userId = await User.create(userData);
@@ -112,7 +106,7 @@ async function register(req, res, next) {
     }
 }
 
-async function login(req, res, next) {
+async function login(req, res) {
     // Recolha dos dados
 
     // Análise e formatação dos dados

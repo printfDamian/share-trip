@@ -1,12 +1,12 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-require('dotenv').config({path: 'API/config'});
+require('dotenv').config({ path: 'config/.env' });
 const morgan = require('morgan');
 
 // === App Config ===
 
-const port = process.env.PORT ?? 8800;
+const port = process.env.API_PORT ?? 8800;
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
 // Routes & EndPoints
-app.use(require('./api/routes'));
+app.use('/api', require('./api/routes'));
 
 app.listen(port);
 console.log('Server running on http://localhost:' + port);
