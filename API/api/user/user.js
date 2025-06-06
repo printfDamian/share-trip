@@ -7,4 +7,9 @@ router.post('/register', (req, res) => {
     register(req, res);
 });
 
+// api/user/login - acesso livre
+router.post('/login', (req, res) => {
+    login(req, res);
+});
+
 module.exports = router;
