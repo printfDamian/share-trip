@@ -1,6 +1,7 @@
 require('dotenv').config({ path: 'config/.env' });
 const bcrypt = require('bcryptjs');
 const User = require('../../models/user/userModel');
+const jwt = require('jsonwebtoken');
 
 async function register(req, res) {
     try {
@@ -107,17 +108,83 @@ async function register(req, res) {
 }
 
 async function login(req, res) {
-    // Recolha dos dados
+    try {
+        let body;
 
-    // Análise e formatação dos dados
+        // Recolha dos dados
+        if (req.body) {
+            try {
+                body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+            } catch (error) {
+                return res.status(406).json({
+                    success: false,
+                    message: "Only 'application/json' content type supported." +
+                        (process.env.DEV_MODE === 'TRUE' ? ' Dev Error: ' + error.message : '')
+                });
+            }
+        } else {
+            return res.status(400).json({
+                success: false,
+                message: "Request body is required"
+            });
+        }
 
-    // Verificações Base de Dados
+        const { email, password } = body;
 
-    // Resposta
+        // Análise e formatação dos dados
+        if ( !email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "Email and password are required fields"
+            });
+        }
 
-    // Enviar para a BD
+        const formattedEmail = email.trim().toLowerCase();
 
-    // Verificar sucesso
+        // Verificações Base de Dados
+        const existingUser = await User.findByEmail(formattedEmail);
+        if (!existingUser) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        // Verificar sucesso
+        if (bcrypt.compare(password, existingUser.password)) {
+            const token = jwt.sign({
+                // Math.floor(Date.now() / 1000) > Seconds from 1970
+                // + (60 * 60 * 24 * 7) > Quantity of seconds in 1 week
+                exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 7),
+                data: {
+                    id: existingUser.id,
+                    email: email,
+                    name: existingUser.name
+                }
+            }, process.env.SECRET_KEY)
+
+            return res.status(202).json({
+                success: true,
+                message: "User logged in successfully",
+                data: {
+                    token: token
+                }
+            });
+        } else {
+            return res.status(404).json({
+                success: false,
+                message: "Invalid credentials"
+            });
+        }
+
+    } catch (error) {
+        console.error('Login error:', error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error" +
+                (process.env.DEV_MODE === 'TRUE' ? ': ' + error.message : '')
+        });
+    }
 }
 
 module.exports = { register, login }
