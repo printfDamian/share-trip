@@ -1,25 +1,30 @@
 const express = require('express');
 const router = express.Router();
 
-// chatBot
-router.use('/chatbot', require('./chatBot/chat'));
-router.use('/chatbot', require('./chatBot/memory'));
-router.use('/chatbot', require('./chatBot/session'));
+try {
+    // chatBot
+    router.use('/chatbot', require('./chatBot/chats'));
+    router.use('/chatbot', require('./chatBot/memorys'));
+    router.use('/chatbot', require('./chatBot/sessions'));
 
-// map
-router.use('/map', require('./map/location'));
-router.use('/map', require('./map/poiContact'));
-router.use('/map', require('./map/pointOfInterest'));
-router.use('/map', require('./map/trip'));
-router.use('/map', require('./map/type'));
+    // map
+    router.use('/map', require('./map/locations'));
+    router.use('/map', require('./map/poiContacts'));
+    router.use('/map', require('./map/pointOfInterests'));
+    router.use('/map', require('./map/trips'));
+    router.use('/map', require('./map/types'));
 
-// social
-router.use('/social', require('./social/comment'));
-router.use('/social', require('./social/image'));
-router.use('/social', require('./social/like'));
+    // social
+    router.use('/social', require('./social/comments'));
+    router.use('/social', require('./social/images'));
+    router.use('/social', require('./social/likes'));
 
-// user
-router.use('/users', require('./user/post'));
-router.use('/users', require('./user/user'));
+    // user
+    router.use('/users', require('./user/posts'));
+    router.use('/users', require('./user/users'));
+
+} catch (error) {
+    
+}
 
 module.exports = router;
