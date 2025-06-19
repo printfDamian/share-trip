@@ -114,4 +114,4 @@ Above each route in the JS files there is a comment with the route's specificati
 - `account restricted` > Only logged in users have access
 
 
-![Api url structure image](../../images/apiUrlStructure.png)
+![Api url structure image](../../IMG/apiUrlStructure.png)

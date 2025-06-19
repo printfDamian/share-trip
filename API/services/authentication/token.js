@@ -1,10 +1,8 @@
 require('dotenv').config({ path: 'config/.env' });
-const bcrypt = require('bcryptjs');
-const User = require('../../models/user/userModel');
 const jwt = require('jsonwebtoken');
 
 function checkToken(token) {
-    jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+    return jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
         if(err) {
             console.error('Token check error: ' + err);
             return null;
@@ -20,8 +18,6 @@ function unauthorized(res) {
     });
 }
 
-// Midlewares
-
 function requiresToken(req, res, next) {
     const authHeader = req.headers["authorization"];
 	if(!authHeader) return unauthorized(res);
@@ -29,8 +25,8 @@ function requiresToken(req, res, next) {
 	const token = authHeader.split(" ")[1] || authHeader;
   	if(!token) return unauthorized(res);
 
-    const userData = checkToken(token)
-
+    const userData = checkToken(token);
+    
 	if(userData) {
 		req.userData = userData;
 		next();
@@ -39,4 +35,4 @@ function requiresToken(req, res, next) {
     };
 }
 
-module.exports = { requiresToken }
+module.exports = { requiresToken, unauthorized }

@@ -216,11 +216,11 @@ dist
 # VS Code
 .vscode/
 
-# Ignore all files in Projeto/
-Projeto/**
+# Ignore all files in APP/
+APP/**
 
 # But keep only app/src/main and its contents
-!Projeto/app/
-!Projeto/app/src/
-!Projeto/app/src/main/
-!Projeto/app/src/main/**
+!APP/app/
+!APP/app/src/
+!APP/app/src/main/
+!APP/app/src/main/**

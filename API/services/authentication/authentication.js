@@ -151,7 +151,7 @@ async function login(req, res) {
         }
 
         // Verificar sucesso
-        if (bcrypt.compare(password, existingUser.password)) {
+        if (await bcrypt.compare(password, existingUser.password)) {
             const token = jwt.sign({
                 // Math.floor(Date.now() / 1000) > Seconds from 1970
                 // + (60 * 60 * 24 * 7) > Quantity of seconds in 1 week
