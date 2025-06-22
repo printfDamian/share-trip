@@ -2,4 +2,24 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Cores da App -->
+    <color name="colorPrimary">#5B674D</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorPrimaryContainer">#8A9B75</color>
+    <color name="colorOnPrimaryContainer">#1F2619</color>
+
+    <color name="colorSecondary">#DB883C</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
+    <color name="colorSecondaryContainer">#FFE2C3</color>
+    <color name="colorOnSecondaryContainer">#5B3000</color>
+
+    <color name="colorBackground">#FFFDF9</color>
+    <color name="colorOnBackground">#1E1E1E</color>
+
+    <color name="colorSurface">#F2F2F2</color>
+    <color name="colorOnSurface">#2C2C2C</color>
+
+    <color name="colorError">#B00020</color>
+    <color name="colorOnError">#FFFFFF</color>
 </resources>
