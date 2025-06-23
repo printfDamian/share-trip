@@ -43,4 +43,11 @@ dependencies {
     // API
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+
+    // Image Loading
+    implementation(libs.glide)
+
+    // Map
+    implementation(libs.android.sdk)
+    implementation(libs.android.plugin.annotation.v9)
 }

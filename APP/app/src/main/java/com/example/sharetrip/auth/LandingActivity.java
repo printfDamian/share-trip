@@ -1,4 +1,4 @@
-package com.example.sharetrip;
+package com.example.sharetrip.auth;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,7 +8,7 @@ import android.os.Looper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.sharetrip.auth.SignInActivity;
+import com.example.sharetrip.home.HomeActivity;
 
 public class LandingActivity extends AppCompatActivity {
 

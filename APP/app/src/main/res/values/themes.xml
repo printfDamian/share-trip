@@ -16,7 +16,7 @@
     <!-- Estilo para texto normal -->
     <style name="AppText.Body" parent="TextAppearance.Material3.BodyMedium">
         <item name="android:textColor">@color/colorOnBackground</item>
-        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:fontFamily">@font/poppins</item>
     </style>
 
     <!-- Estilo para botões primários -->

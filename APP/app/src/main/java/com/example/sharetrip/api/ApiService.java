@@ -4,7 +4,10 @@ import com.example.sharetrip.api.auth.LoginRequest;
 import com.example.sharetrip.api.auth.LoginResponse;
 import com.example.sharetrip.api.auth.SignupRequest;
 import com.example.sharetrip.api.auth.SignupResponse;
+import com.example.sharetrip.models.Post;
 import com.example.sharetrip.models.User;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -24,4 +27,7 @@ public interface ApiService {
     @Headers("Content-Type: application/json")
     @POST("/api/users/register")
     Call<SignupResponse> register(@Body SignupRequest signupRequest);
+
+    @GET("api/posts")
+    Call<List<Post>> getAllPosts();
 }
