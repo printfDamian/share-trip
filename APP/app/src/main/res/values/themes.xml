@@ -23,6 +23,7 @@
     <style name="AppButton.Primary" parent="Widget.Material3.Button">
         <item name="android:backgroundTint">@color/colorPrimary</item>
         <item name="android:textColor">@color/colorOnPrimary</item>
+        <item name="android:textStyle">bold</item>
         <item name="shapeAppearance">@style/ShapeAppearance.ShareTrip.Rounded</item>
         <item name="android:fontFamily">@font/poppins</item>
     </style>
@@ -30,15 +31,24 @@
     <style name="AppButton.Secondary" parent="Widget.Material3.Button.OutlinedButton">
         <item name="android:backgroundTint">@android:color/transparent</item>
         <item name="android:textColor">@color/colorOnSurface</item>
+        <item name="android:textStyle">bold</item>
         <item name="shapeAppearance">@style/ShapeAppearance.ShareTrip.Rounded</item>
         <item name="android:fontFamily">@font/poppins</item>
     </style>
 
     <!-- Estilo para campos de texto (EditText) -->
-    <style name="AppInputField" parent="Widget.Material3.TextInputEditText.FilledBox">
+    <!--style name="AppInputField" parent="Widget.Material3.TextInputEditText.FilledBox">
         <item name="android:textColor">@color/colorOnSurface</item>
         <item name="android:backgroundTint">@color/colorPrimaryContainer</item>
+    </style-->
+
+    <style name="AppInputField" parent="Widget.Material3.TextInputLayout.FilledBox.Dense">
+        <item name="boxBackgroundColor">@color/colorSurface</item>
+        <item name="boxStrokeColor">@color/colorPrimary</item>
+        <item name="hintTextColor">@color/colorOnSurface</item>
+        <item name="android:textColor">@color/colorOnSurface</item>
     </style>
+
 
     <style name="ShapeAppearance.ShareTrip.Rounded" parent="ShapeAppearance.Material3.MediumComponent">
         <item name="cornerSize">12dp</item>
