@@ -6,13 +6,22 @@ public class User {
     private int id;
     private String name;
     private String email;
+    private int active;
     private Date created_at;
     private Date updated_at;
 
-    public User(int id, String name, String email, Date created_at, Date updated_at) {
+    public User(int id, String name, String email, int active, Date created_at, Date updated_at) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.active = active;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
+
+    public User(String name, int active, Date created_at, Date updated_at) {
+        this.name = name;
+        this.active = active;
         this.created_at = created_at;
         this.updated_at = updated_at;
     }
@@ -39,6 +48,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
     }
 
     public Date getCreated_at() {

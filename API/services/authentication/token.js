@@ -35,4 +35,23 @@ function requiresToken(req, res, next) {
     };
 }
 
-module.exports = { requiresToken, unauthorized }
+function verifyToken(req, res) {
+    const authHeader = req.headers["authorization"];
+	if(!authHeader) return unauthorized(res);
+
+	const token = authHeader.split(" ")[1] || authHeader;
+  	if(!token) return unauthorized(res);
+
+    const userData = checkToken(token);
+    
+	if(userData) {
+		return res.status(200).json({
+            success: true,
+            message: "The token is valid"
+        });
+	} else {
+        return unauthorized(res);
+    };
+}
+
+module.exports = { requiresToken, unauthorized, verifyToken }

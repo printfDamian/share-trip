@@ -1,4 +1,5 @@
-require('dotenv').config({ path: 'config/.env' });
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 const dbConfig = {
     host: process.env.DB_HOST,

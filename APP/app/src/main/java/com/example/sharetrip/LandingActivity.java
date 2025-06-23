@@ -17,7 +17,7 @@ public class LandingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            if (isUserLoggedIn()) {
+            if (!isTokenAvailable().isEmpty()) {
                 startActivity(new Intent(this, HomeActivity.class));
             } else {
                 startActivity(new Intent(this, SignInActivity.class));
@@ -26,8 +26,8 @@ public class LandingActivity extends AppCompatActivity {
         }, 1000);
     }
 
-    private boolean isUserLoggedIn() {
+    private String isTokenAvailable() {
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
-        return prefs.getBoolean("isLoggedIn", false);
+        return prefs.getString("token", "");
     }
 }

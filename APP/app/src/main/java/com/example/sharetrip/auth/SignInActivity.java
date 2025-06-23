@@ -18,6 +18,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.sharetrip.HomeActivity;
 import com.example.sharetrip.R;
 import com.example.sharetrip.utils.Utils;
 
@@ -40,14 +41,15 @@ public class SignInActivity extends AppCompatActivity {
         Button btnLogin = findViewById(R.id.Signin_btnLogin);
 
         signupLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == RESULT_OK) {
-                    finish();
-                } else {
-                    showToast(this, "Signup failed or cancelled", getLayoutInflater());
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Intent intent = new Intent(this, LoginActivity.class);
+                        loginLauncher.launch(intent);
+                    } else {
+                        showToast(this, "Signup failed or cancelled", getLayoutInflater());
+                    }
                 }
-            }
         );
 
         btnSignup.setOnClickListener(v -> {
@@ -61,6 +63,8 @@ public class SignInActivity extends AppCompatActivity {
                 result -> {
                     if (result.getResultCode() == RESULT_OK) {
                         finish();
+                        Intent intent = new Intent(this, HomeActivity.class);
+                        startActivity(intent);
                     } else {
                         showToast(this, "Login failed or cancelled", getLayoutInflater());
                     }

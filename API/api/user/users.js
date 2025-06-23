@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { register, login } = require('../../services/authentication/authentication');
-const { requiresToken, unauthorized } = require('../../services/authentication/token');
+const { requiresToken, unauthorized, verifyToken } = require('../../services/authentication/token');
 const isOwnerId = require('../../services/access/ownerChecker');
 const NotImplementedError = require('../../services/errors/NotImplementedError');
 
@@ -13,6 +13,9 @@ router.post('/register', register);
 
 // POST - /api/users/login - unrestricted
 router.post('/login', login);
+
+// POST - /api/users/login/check - unrestricted 
+router.post('/login/check', verifyToken);
 
 // GET - /api/users/:id - name, active, created_at, updated_at - account restricted
 router.get('/:id', requiresToken, async (req, res) => {
