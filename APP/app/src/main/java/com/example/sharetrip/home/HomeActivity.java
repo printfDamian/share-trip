@@ -19,6 +19,7 @@ import com.example.sharetrip.home.fragments.PostsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
+    Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,19 +32,23 @@ public class HomeActivity extends AppCompatActivity {
             return insets;
         });
 
-        // System.out.println(getToken());
-
         FrameLayout Home_fragmentContainer = findViewById(R.id.Home_fragmentContainer);
         BottomNavigationView Home_bottomNavigation = findViewById(R.id.Home_bottomNavigation);
 
+        fragment = new PostsFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.Home_fragmentContainer, fragment)
+                .commit();
+
         Home_bottomNavigation.setOnItemSelectedListener(item -> {
-            Fragment fragment;
-            if (item.getItemId() == R.id.nav_posts) {
+            if (item.getItemId() == R.id.nav_posts && !(fragment instanceof PostsFragment)) {
                 fragment = new PostsFragment();
-            } else if(item.getItemId() == R.id.nav_map) {
+            } else if(item.getItemId() == R.id.nav_map && !(fragment instanceof MapFragment)) {
                 fragment = new MapFragment();
-            } else {
-                fragment = new PostsFragment(); // Futuramente para o chatbot
+            } /*else if(item.getItemId() == R.id.nav_chatbot && !(fragment instanceof ChatbotFragment)){
+                fragment = new Chatbot();
+            }*/ else {
+                return false;
             }
 
             getSupportFragmentManager().beginTransaction()

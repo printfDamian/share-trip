@@ -1,4 +1,4 @@
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 const dbConfig = require('../../config/dbConfig');
 
 class PointOfInterest {
@@ -14,6 +14,49 @@ class PointOfInterest {
             JOIN trips tr ON poi.trip_id = tr.id 
             ORDER BY poi.created_at DESC
         `);
+        return rows;
+    }
+
+    async findAllWithLocation() {
+        const [rows] = await this.connection.execute(`
+            SELECT 
+                poi.id,
+                poi.name,
+                poi.description,
+                poi.created_at,
+                t.name as type_name,
+                tr.title as trip_title,
+                l.latitude,
+                l.longitude,
+                l.address
+            FROM points_of_interest poi 
+            JOIN types t ON poi.type_id = t.id 
+            JOIN trips tr ON poi.trip_id = tr.id 
+            JOIN location l ON poi.id = l.poi_id
+            ORDER BY poi.created_at DESC
+        `);
+        return rows;
+    }
+
+    async findAllWithLocationLimited(limit = 1000) {
+        const [rows] = await this.connection.execute(`
+            SELECT 
+                poi.id,
+                poi.name,
+                poi.description,
+                poi.created_at,
+                t.name as type_name,
+                tr.title as trip_title,
+                l.latitude,
+                l.longitude,
+                l.address
+            FROM points_of_interest poi 
+            JOIN types t ON poi.type_id = t.id 
+            JOIN trips tr ON poi.trip_id = tr.id 
+            JOIN location l ON poi.id = l.poi_id
+            ORDER BY poi.created_at DESC
+            LIMIT ?
+        `, [limit]);
         return rows;
     }
 

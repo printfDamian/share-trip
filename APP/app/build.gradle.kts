@@ -50,4 +50,5 @@ dependencies {
     // Map
     implementation(libs.android.sdk)
     implementation(libs.android.plugin.annotation.v9)
+    implementation(libs.android.sdk.v950) // Marker Cluster
 }

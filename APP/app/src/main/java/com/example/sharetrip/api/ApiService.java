@@ -4,6 +4,7 @@ import com.example.sharetrip.api.auth.LoginRequest;
 import com.example.sharetrip.api.auth.LoginResponse;
 import com.example.sharetrip.api.auth.SignupRequest;
 import com.example.sharetrip.api.auth.SignupResponse;
+import com.example.sharetrip.api.markers.MarksResponse;
 import com.example.sharetrip.api.post.PostsResponse;
 import com.example.sharetrip.models.Post;
 import com.example.sharetrip.models.User;
@@ -31,4 +32,7 @@ public interface ApiService {
 
     @GET("/api/posts")
     Call<PostsResponse> getAllPosts();
+
+    @GET("map/markers")
+    Call<MarksResponse> getAllMarkers();
 }
