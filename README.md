@@ -27,3 +27,5 @@ Run this commands inside [`\API`](API/):
 [`\config`](API/config/) > API and DataBase configurations
 [`\models`](API/models/) > DataBase Model
 [`\services`](API/services/) > Business Logic
+
+https://ollama.com/download/
