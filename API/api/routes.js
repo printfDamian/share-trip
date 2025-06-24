@@ -19,7 +19,7 @@ router.use('/social', require('./social/images'));
 router.use('/social', require('./social/likes'));
 
 // user
-router.use('/users', require('./user/posts'));
+router.use('/posts', require('./user/posts'));
 router.use('/users', require('./user/users'));
 
 module.exports = router;

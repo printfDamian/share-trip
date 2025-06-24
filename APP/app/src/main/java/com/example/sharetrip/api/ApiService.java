@@ -4,6 +4,7 @@ import com.example.sharetrip.api.auth.LoginRequest;
 import com.example.sharetrip.api.auth.LoginResponse;
 import com.example.sharetrip.api.auth.SignupRequest;
 import com.example.sharetrip.api.auth.SignupResponse;
+import com.example.sharetrip.api.post.PostsResponse;
 import com.example.sharetrip.models.Post;
 import com.example.sharetrip.models.User;
 
@@ -28,6 +29,6 @@ public interface ApiService {
     @POST("/api/users/register")
     Call<SignupResponse> register(@Body SignupRequest signupRequest);
 
-    @GET("api/posts")
-    Call<List<Post>> getAllPosts();
+    @GET("/api/posts")
+    Call<PostsResponse> getAllPosts();
 }

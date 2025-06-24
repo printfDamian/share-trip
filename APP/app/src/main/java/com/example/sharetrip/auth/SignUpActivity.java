@@ -58,7 +58,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             SignupRequest request = new SignupRequest(name, email, password);
 
-            ApiClient.getApiService().register(request).enqueue(new Callback<SignupResponse>() {
+            ApiClient.getApiService(this).register(request).enqueue(new Callback<SignupResponse>() {
                 @Override
                 public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
                     if (response.isSuccessful() && response.body() != null) {

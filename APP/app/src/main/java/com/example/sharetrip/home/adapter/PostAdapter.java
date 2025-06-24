@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.sharetrip.R;
+import com.example.sharetrip.api.ApiClient;
 import com.example.sharetrip.models.Post;
+import com.google.gson.JsonParser;
 
 import java.util.List;
 
@@ -37,12 +39,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         Post post = posts.get(position);
         holder.textTitle.setText(post.getTitle());
         holder.textContent.setText(post.getContent());
-        holder.textAuthor.setText(post.getUser().getName());
+        holder.textAuthor.setText(post.getUser_name());
         holder.textDate.setText(post.getCreatedAt());
 
         if (post.getImageUrl() != null && !post.getImageUrl().isEmpty()) {
+            System.out.println(ApiClient.BASE_URL + "../images/" + post.getImageUrl());
             Glide.with(context)
-                    .load(post.getImageUrl())
+                    .load(ApiClient.BASE_URL + "../images/" + post.getImageUrl())
                     .into(holder.imageView);
 
             holder.imageView.setVisibility(View.VISIBLE);

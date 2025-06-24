@@ -9,8 +9,10 @@ const morgan = require('morgan');
 const port = process.env.API_PORT ?? 8800;
 
 // Set EJS as the view engine
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'ejs');
+// app.set('views', path.join(__dirname, 'views'));
+app.use('/images', express.static('images'))
+
 
 // Middleware to parse JSON and URL-encoded data
 app.use(express.json());
