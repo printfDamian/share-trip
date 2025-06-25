@@ -48,4 +48,7 @@
     <string name="acc_eliminated">Account eliminated with success</string>
     <string name="err_acc_elimin">Error trying to delete the account</string>
     <string name="email_notfound">Email not found</string>
+    <string name="posts">Posts</string>
+    <string name="map">Map</string>
+    <string name="chatbot">Chatbot</string>
 </resources>

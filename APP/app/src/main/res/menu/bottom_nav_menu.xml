@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_posts"
-        android:title="Posts"
+        android:title="@string/posts"
         android:icon="@drawable/baseline_list_alt_24" />
     <item
         android:id="@+id/nav_map"
-        android:title="Map"
+        android:title="@string/map"
         android:icon="@drawable/baseline_map_24" />
     <item
         android:id="@+id/nav_chatbot"
-        android:title="Chatbot"
+        android:title="@string/chatbot"
         android:icon="@drawable/baseline_chat_24" />
 </menu>

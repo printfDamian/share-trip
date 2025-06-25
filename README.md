@@ -2,12 +2,21 @@
 
 Uma aplicação de viagens completa, concebida para ajudar viajantes de todo o mundo a descobrir, partilhar e conectar-se através das suas experiências de viagem. A app combina funcionalidades sociais com assistência baseada em IA para criar um verdadeiro companheiro de viagem.
 
+## Logo
+<img src="IMG/logo.png" alt="Share Trip logo" width="200">
+
 ## 🚀 Funcionalidades
 
 * **Rede Social de Viagens**: Partilha publicações
 * **Pontos de Interesse (POI)**: Descobre informações baseadas na localização
 * **ChatBot com IA**: Obtém assistência de viagem com o modelo Llama3.2:1b
 * **Serviços de Localização**: Integração com GPS para funcionalidades baseadas na localização
+
+## Capturas de ecrâ
+<img src="IMG/Screenshot_Signin.png" alt="Share Trip Signin" width="300">
+<img src="IMG/Screenshot_Posts.png" alt="Share Trip Posts" width="300">
+<img src="IMG/Screenshot_Map.png" alt="Share Trip Map" width="300">
+<img src="IMG/Screenshot_Chatbot.png" alt="Share Trip Chatbot" width="300">
 
 ## 📁 Estrutura do Projeto
 
@@ -27,6 +36,9 @@ Uma aplicação de viagens completa, concebida para ajudar viajantes de todo o m
 │   └── pointsOfInterestDataSet.csv # Dataset dos Pontos de Interesse
 └── IMG/                   # Imagens e recursos do projeto
 ```
+
+## Base de Dados
+![Diagrama BD shareTrip](DB/shareTripSchema.png)
 
 ## 🛠️ Especificações Técnicas
 
