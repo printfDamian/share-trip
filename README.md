@@ -28,12 +28,79 @@ Uma aplicação de viagens completa, concebida para ajudar viajantes de todo o m
 └── IMG/                   # Imagens e recursos do projeto
 ```
 
+## 🛠️ Especificações Técnicas
+
+### Aplicação Android
+- **SDK Mínimo**: API 24 (Android 7.0)
+- **SDK Alvo**: API 35 (Android 15)
+- **SDK de Compilação**: API 35
+- **Versão do Gradle**: 8.10.2
+- **Plugin Android Gradle**: 8.8.0
+- **Versão Java**: 11
+
+### API Backend
+- **Node.js**: Versão recomendada 14+
+- **MySQL**: Compatível com versões 5.7+
+
+## 📚 Bibliotecas Utilizadas
+
+### Aplicação Android
+
+#### Bibliotecas de Interface e UI
+- **[Material Design Components](https://github.com/material-components/material-components-android)** `1.12.0`
+  - Componentes de interface seguindo Material Design
+
+- **[ConstraintLayout](https://developer.android.com/jetpack/androidx/releases/constraintlayout)** `2.2.1`
+  - Sistema de layout flexível para Android
+
+#### Comunicação de Rede
+- **[Retrofit](https://square.github.io/retrofit/)** `2.9.0`
+  - Cliente HTTP type-safe para Android e Java
+
+- **[Gson Converter](https://github.com/square/retrofit/tree/master/retrofit-converters/gson)** `2.9.0`
+  - Conversor JSON para Retrofit usando Gson
+
+#### Carregamento de Imagens
+- **[Glide](https://bumptech.github.io/glide/)** `4.16.0`
+  - Biblioteca de carregamento e cache de imagens
+
+#### Mapas e Localização
+- **[MapLibre Android SDK](https://github.com/maplibre/maplibre-native)** `11.5.1`
+  - SDK de mapas open-source
+
+- **[MapLibre Plugin Annotation](https://github.com/maplibre/maplibre-plugins-android)** `3.0.2`
+  - Plugin para anotações em mapas
+
+### API Backend
+
+#### Dependências Node.js
+- **[Express](https://expressjs.com/)** `5.1.0`
+  - Framework web para Node.js
+
+- **[MySQL2](https://github.com/sidorares/node-mysql2)** `3.14.1`
+  - Cliente MySQL para Node.js
+
+- **[bcryptjs](https://github.com/dcodeIO/bcrypt.js)** `3.0.2`
+  - Biblioteca para hash de passwords
+
+- **[jsonwebtoken](https://github.com/auth0/node-jsonwebtoken)** `9.0.2`
+  - Implementação de JSON Web Tokens
+
+- **[dotenv](https://github.com/motdotla/dotenv)** `16.5.0`
+  - Carregamento de variáveis de ambiente
+
+- **[morgan](https://github.com/expressjs/morgan)** `1.10.0`
+  - Middleware de logging HTTP
+
+- **[csv-parser](https://github.com/mafintosh/csv-parser)** `3.0.0`
+  - Parser de ficheiros CSV
+
 ## 🛠️ Pré-requisitos
 
-* **Node.js**
+* **Node.js** (v14 ou superior)
 * Servidor de base de dados **MySQL** (recomenda-se [XAMPP](https://www.apachefriends.org/) para desenvolvimento)
-* **Android Studio**
-* **Ollama**
+* **Android Studio** (versão mais recente)
+* **Ollama** (para funcionalidade de ChatBot)
 
 ## ⚙️ Instruções de Configuração
 
@@ -113,6 +180,44 @@ A API estará disponível em `http://localhost:8800` (ou na porta que tiveres co
 2. Atualiza o endereço IP do servidor no ficheiro [`ApiClient.java`](APP/app/src/main/java/com/example/sharetrip/api/ApiClient.java)
 3. Compila e executa a aplicação no teu dispositivo ou emulador
 
+## 📂 Processo de Importação do Projeto
+
+### Importação da Aplicação Android
+
+1. **Abrir o Android Studio**
+2. **Selecionar "Open"** e navegar até à pasta `APP` do projeto
+3. **Aguardar a sincronização** - O Gradle irá automaticamente descarregar todas as dependências definidas em [`build.gradle.kts`](APP/app/build.gradle.kts)
+4. **Configurar o SDK** se necessário:
+   - Ir a File → Project Structure → Modules → App
+   - Verificar se o Compile SDK está definido para API 35
+   - Verificar se o Build Tools Version está atualizado
+5. **Sync Project with Gradle Files** se solicitado
+6. **Configurar o IP do servidor** no ficheiro [`ApiClient.java`](APP/app/src/main/java/com/example/sharetrip/api/ApiClient.java)
+
+### Importação da API Backend
+
+1. **Navegar para a pasta API**:
+   ```bash
+   cd API
+   ```
+2. **Instalar dependências**:
+   ```bash
+   npm install
+   ```
+3. **Executar o projeto**:
+   ```bash
+   node app.js
+   ```
+
+### Configuração Adicional da Base de Dados
+
+1. **Importar estrutura da base de dados**:
+   - Executar [`share-trip_v2.sql`](DB/share-trip_v2.sql) no MySQL
+2. **Importar dados iniciais**:
+   - Executar [`share-trip_v2-INSERT.sql`](DB/share-trip_v2-INSERT.sql)
+3. **Popular dados dos POIs**:
+   - Executar `node datasetLoader.js` na pasta API
+
 ## 📱 Endpoints da API
 
 A API fornece os seguintes grupos principais de endpoints:
@@ -143,158 +248,13 @@ Este projeto foi desenvolvido por André Silva e Samuel Santos como parte de um 
 * **ChatBot sem funcionar**: Verifica se o Ollama está instalado e se o modelo foi corretamente descarregado
 * **Problemas de ligação da app Android**: Confirma o IP do servidor no ficheiro [`ApiClient.java`](APP/app/src/main/java/com/example/sharetrip/api/ApiClient.java)
 * **Erro ao carregar os POIs**: Garante que a base de dados está corretamente configurada antes de correres o [`datasetLoader.js`](API/datasetLoader.js)
+* **Problemas de sincronização do Gradle**: Tenta "Clean Project" e "Rebuild Project" no Android Studio
+* **Erros de dependências**: Verifica se tens a versão correta do Android Studio e do Java SDK
 
-### Configuração do Ambiente
+- ### Configuração do Ambiente
 
-Certifica-te de que o teu ficheiro [`.env`](API/config/.env) está corretamente configurado com:
+    - Certifica-te de que o teu ficheiro [`.env`](API/config/.env) está corretamente configurado com:
 
-* Credenciais corretas da base de dados
-* Chave secreta válida para autenticação JWT
-* Definições de porta apropriadas
-
----
-
-# Share Trip
-
-A comprehensive travel application designed to help travelers worldwide discover, share, and connect through their travel experiences. The app combines social features with AI-powered assistance to create a complete travel companion.
-
-## 🚀 Features
-
-- **Social Travel Network**: Share posts
-- **Points of Interest (POI)**: Discover location-based information
-- **AI ChatBot**: Get travel assistance powered by Llama3.2:1b model
-- **Location Services**: GPS integration for location-based features
-
-## 📁 Project Structure
-
-```
-├── API/                    # Node.js backend server
-│   ├── app.js             # Main server file
-│   ├── datasetLoader.js   # Database population script
-│   ├── api/               # API routes and controllers
-│   ├── config/            # Configuration files
-│   ├── models/            # Data models
-│   └── services/          # Business logic services
-├── APP/                   # Android application
-│   └── app/src/main/java/com/example/sharetrip/
-├── DB/                    # Database scripts and datasets
-│   ├── share-trip_v2.sql           # Main database schema
-│   ├── share-trip_v2-INSERT.sql    # Initial data
-│   └── pointsOfInterestDataSet.csv # POI dataset
-└── IMG/                   # Project images and assets
-```
-
-## 🛠️ Prerequisites
-
-- **Node.js**
-- **MySQL** database server (XAMPP recommended for development)
-- **Android Studio**
-- **Ollama**
-
-## ⚙️ Setup Instructions
-
-### 1. Database Setup
-
-1. Install and start a MySQL server (we recommend [XAMPP](https://www.apachefriends.org/))
-2. Create the database by running the [`share-trip_v2.sql`](DB/share-trip_v2.sql) script
-3. Populate with initial data using [`share-trip_v2-INSERT.sql`](DB/share-trip_v2-INSERT.sql)
-
-### 2. API Server Setup
-
-1. Navigate to the API directory:
-   ```bash
-   cd API
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Configure environment variables:
-   - Copy [`.env.template`](API/config/.env.template) to `.env` in the `API/config/` directory
-   - Update the configuration values in `.env`:
-   ```bash
-   DEV_MODE=TRUE
-   DB_HOST=localhost
-   DB_PORT=3306
-   DB_USERNAME=root
-   DB_PASSWORD=your_mysql_password
-   DB=sharetrip
-   BCRYPT_SALT=10
-   API_PORT=8800
-   SECRET_KEY=your_secret_key_here
-   ```
-
-4. Load the POI dataset:
-   ```bash
-   node datasetLoader.js
-   ```
-   Wait for the process to complete (this will populate the database with Points of Interest data from [`pointsOfInterestDataSet.csv`](DB/pointsOfInterestDataSet.csv)).
-
-### 3. AI ChatBot Setup
-
-1. Install [Ollama](https://ollama.com/download/)
-2. Download and run the AI model:
-   ```bash
-   ollama run llama3.2:1b
-   ```
-   This will download the model if it's not already installed.
-
-### 4. Launch the API Server
-
-Start the server using one of the following commands:
-
-```bash
-# Standard launch
-node app.js
-
-# Development mode (if you have nodemon installed)
-nodemon app.js
-```
-
-The API will be available at `http://localhost:8800` (or your configured port).
-
-### 5. Android App Setup
-
-1. Open the `APP` folder in Android Studio
-2. Update the server IP address in [`ApiClient.java`](APP/app/src/main/java/com/example/sharetrip/api/ApiClient.java)
-3. Build and run the application on your device or emulator
-
-## 📱 API Endpoints
-
-The API provides the following main endpoint categories:
-
-- **🤖 ChatBot**: AI-powered chat
-- **🗺️ Map**: Locations, points of interest  
-- **👥 Social**: Posts
-- **👤 User**: Authentication and user management
-
-For detailed API documentation, see [`API/api/routes.md`](API/api/routes.md).
-
-## 🧪 Testing
-
-Currently, no automated tests are configured. To test:
-
-1. Ensure all services are running (Database, API, Ollama)
-2. Use the Android app to test functionality
-3. Use API testing tools like Postman for endpoint testing
-
-## 🤝 Contributing
-
-This project was developed by André Silva and Samuel Santos as part of an academic project.
-
-## 🆘 Troubleshooting
-
-- **Database connection errors**: Ensure MySQL is running and credentials are correct in your `.env` file
-- **API not responding**: Check if the server started successfully and ports are available (default: 8800)
-- **ChatBot not working**: Verify Ollama is installed and the model is downloaded
-- **Android app connection issues**: Confirm the API server IP address in [`ApiClient.java`](APP/app/src/main/java/com/example/sharetrip/api/ApiClient.java)
-- **POI dataset loading fails**: Ensure the database is properly set up before running [`datasetLoader.js`](API/datasetLoader.js)
-
-### Environment Configuration
-
-Make sure your [`.env`](API/config/.env) file is properly configured with:
-- Correct database credentials
-- Valid secret key for JWT authentication
-- Appropriate port settings
+        * Credenciais corretas da base de dados
+        * Chave secreta válida para autenticação JWT
+        * Definições de porta apropriadas
