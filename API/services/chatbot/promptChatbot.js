@@ -25,7 +25,7 @@ Instructions:
 async function askChatbot(prompt, context) {
     let summarizedConversation;
 
-    if (context) {
+    if (context && context != "") {
         const fullPromptSummarize = `${systemPromptSummarize}\n\nConversation: ${context}\nSummary:`;
         summarizedConversation = await fetchResponse(fullPromptSummarize, model);
 

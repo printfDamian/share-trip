@@ -1,12 +1,11 @@
 package com.example.sharetrip.auth;
 
-import static com.example.sharetrip.utils.Utils.showToast;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
 
-        LinearLayout Login_llBack = findViewById(R.id.Signup_llBack);
+        LinearLayout Login_llBack = findViewById(R.id.AddPost_llBack);
         EditText Login_inputEmail = findViewById(R.id.Login_inputEmail);
         EditText Login_inputPassword = findViewById(R.id.Login_inputPassword);
         Button Login_btnLogin = findViewById(R.id.Login_btnLogin);
@@ -68,30 +67,33 @@ public class LoginActivity extends AppCompatActivity {
 
                         if (loginResponse.isSuccess()) {
                             String token = loginResponse.getData().getToken();
+                            String username = loginResponse.getData().getUsername();
+                            String email = loginResponse.getData().getEmail();
                             // Armazenar token em SharedPreferences ou passar à próxima activity
                             SharedPreferences.Editor editor = prefs.edit();
                             editor.putString("token", token);
+                            editor.putString("username", username);
+                            editor.putString("email", email);
                             editor.apply();
 
-                            showToast(LoginActivity.this, "Login successful!", getLayoutInflater());
+                            Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
 
                             // startActivity(...)
 
-                            // You can put extras if needed
                             setResult(RESULT_OK);
                             finish();
                         } else {
-                            showToast(LoginActivity.this, loginResponse.getMessage(), getLayoutInflater());
+                            Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        showToast(LoginActivity.this, "Erro ao fazer login", getLayoutInflater());
+                        Toast.makeText(LoginActivity.this, "Erro ao fazer login", Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<LoginResponse> call, Throwable t) {
                     System.out.println("Erro: " + t.getMessage());
-                    showToast(LoginActivity.this, "Erro: " + t.getMessage(), getLayoutInflater());
+                    Toast.makeText(LoginActivity.this, "Erro: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                     // setResult(RESULT_CANCELED);
                     // finish();
                 }

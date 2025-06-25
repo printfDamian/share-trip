@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide;
 import com.example.sharetrip.R;
 import com.example.sharetrip.api.ApiClient;
 import com.example.sharetrip.models.Post;
-import com.google.gson.JsonParser;
 
 import java.util.List;
 
@@ -67,9 +66,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
             textTitle = itemView.findViewById(R.id.IP_tvTitle);
-            textContent = itemView.findViewById(R.id.IP_tvContent);
-            textAuthor = itemView.findViewById(R.id.IP_tvUsername);
-            textDate = itemView.findViewById(R.id.IP_tvDate);
+            textContent = itemView.findViewById(R.id.ICB_tvContent);
+            textAuthor = itemView.findViewById(R.id.ICB_tvUsername);
+            textDate = itemView.findViewById(R.id.ICB_tvDate);
             imageView = itemView.findViewById(R.id.IP_imgPostImage);
         }
     }

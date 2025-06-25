@@ -167,7 +167,9 @@ async function login(req, res) {
                 success: true,
                 message: "User logged in successfully",
                 data: {
-                    token: token
+                    token: token,
+                    email: email,
+                    username: existingUser.name
                 }
             });
         } else {

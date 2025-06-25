@@ -1,13 +1,11 @@
 package com.example.sharetrip.auth;
 
-import static com.example.sharetrip.utils.Utils.showToast;
-
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,8 +14,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import com.example.sharetrip.R;
 import com.example.sharetrip.api.ApiClient;
-import com.example.sharetrip.api.auth.LoginRequest;
-import com.example.sharetrip.api.auth.LoginResponse;
 import com.example.sharetrip.api.auth.SignupRequest;
 import com.example.sharetrip.api.auth.SignupResponse;
 
@@ -40,11 +36,11 @@ public class SignUpActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
 
-        LinearLayout Signup_llBack = findViewById(R.id.Signup_llBack);
-        EditText Signup_inputName = findViewById(R.id.Signup_inputName);
-        EditText Signup_inputEmail = findViewById(R.id.Signup_inputEmail);
+        LinearLayout Signup_llBack = findViewById(R.id.AddPost_llBack);
+        EditText Signup_inputName = findViewById(R.id.Profile_name);
+        EditText Signup_inputEmail = findViewById(R.id.AddPost_inputBody);
         EditText Signup_inputPassword = findViewById(R.id.Signup_inputPassword);
-        Button Signup_btnSignup = findViewById(R.id.Signup_btnSignup);
+        Button Signup_btnSignup = findViewById(R.id.AddPost_btnPost);
 
         Signup_llBack.setOnClickListener(v -> {
             setResult(RESULT_CANCELED);
@@ -69,23 +65,24 @@ public class SignUpActivity extends AppCompatActivity {
                             editor.putString("email", email);
                             editor.apply();
 
-                            showToast(SignUpActivity.this, "Login successful!", getLayoutInflater());
+                            Toast.makeText(SignUpActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
 
                             setResult(RESULT_OK);
                             finish();
 
                         } else {
-                            showToast(SignUpActivity.this, SignupResponse.getMessage(), getLayoutInflater());
+                            Toast.makeText(SignUpActivity.this, SignupResponse.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        showToast(SignUpActivity.this, "Erro ao fazer login", getLayoutInflater());
+                        Toast.makeText(SignUpActivity.this, "Erro ao fazer login", Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<SignupResponse> call, Throwable t) {
                     System.out.println("Erro: " + t.getMessage());
-                    showToast(SignUpActivity.this, "Erro: " + t.getMessage(), getLayoutInflater());
+                    Toast.makeText(SignUpActivity.this, "Erro: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+
                     // setResult(RESULT_CANCELED);
                     // finish();
                 }

@@ -36,23 +36,24 @@ class User {
     }
 
     async update(id, userData) {
-    const { name, email, password, active } = userData;
-    
-    if (active !== undefined) {
-        const [result] = await this.connection.execute(
-            'UPDATE users SET name = ?, email = ?, password = ?, active = ? WHERE id = ?',
-            [name, email, password, active, id]
-        );
-        return result.affectedRows;
-    } else {
-        // Manter comportamento original se active não for fornecido
-        const [result] = await this.connection.execute(
-            'UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?',
-            [name, email, password, id]
-        );
-        return result.affectedRows;
+        const { name, password, active } = userData;
+
+        if (active !== undefined) {
+            // When updating active status, only update name, password, and active (never email)
+            const [result] = await this.connection.execute(
+                'UPDATE users SET name = ?, password = ?, active = ? WHERE id = ?',
+                [name, password, active, id]
+            );
+            return result.affectedRows;
+        } else {
+            // Only update name and password when active is not provided
+            const [result] = await this.connection.execute(
+                'UPDATE users SET name = ?, password = ? WHERE id = ?',
+                [name, password, id]
+            );
+            return result.affectedRows;
+        }
     }
-}
 
     async delete(id) {
         const [result] = await this.connection.execute('DELETE FROM users WHERE id = ?', [id]);

@@ -1,10 +1,9 @@
 package com.example.sharetrip.auth;
 
-import static com.example.sharetrip.utils.Utils.showToast;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
@@ -42,7 +41,7 @@ public class SignInActivity extends AppCompatActivity {
                         Intent intent = new Intent(this, LoginActivity.class);
                         loginLauncher.launch(intent);
                     } else {
-                        showToast(this, "Signup failed or cancelled", getLayoutInflater());
+                        Toast.makeText(SignInActivity.this, "Signup failed or cancelled", Toast.LENGTH_SHORT).show();
                     }
                 }
         );
@@ -61,7 +60,7 @@ public class SignInActivity extends AppCompatActivity {
                         Intent intent = new Intent(this, HomeActivity.class);
                         startActivity(intent);
                     } else {
-                        showToast(this, "Login failed or cancelled", getLayoutInflater());
+                        Toast.makeText(SignInActivity.this, "Login failed or cancelled", Toast.LENGTH_SHORT).show();
                     }
                 }
         );

@@ -1,13 +1,14 @@
 package com.example.sharetrip.home.fragments;
 
 import static android.content.Context.MODE_PRIVATE;
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -17,8 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.sharetrip.R;
 import com.example.sharetrip.api.ApiClient;
@@ -26,7 +28,7 @@ import com.example.sharetrip.api.post.PostsResponse;
 import com.example.sharetrip.auth.SignInActivity;
 import com.example.sharetrip.home.adapter.PostAdapter;
 import com.example.sharetrip.models.Post;
-import com.example.sharetrip.utils.Utils;
+import com.example.sharetrip.home.AddPostActivity;
 
 import java.util.List;
 
@@ -40,6 +42,7 @@ public class PostsFragment extends Fragment {
     private PostAdapter postAdapter;
     private ProgressBar PostFrg_progressBar;
     SharedPreferences prefs;
+    private ActivityResultLauncher<Intent> addPostLauncher;
 
     public PostsFragment() {}
 
@@ -59,12 +62,27 @@ public class PostsFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.PostFrg_recyclerView);
         PostFrg_progressBar = view.findViewById(R.id.PostFrg_progressBar);
+        ImageButton PostFrg_btnAddPost = view.findViewById(R.id.PostFrg_btnAddPost);
 
         PostFrg_progressBar.setVisibility(View.VISIBLE);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         loadPosts();
+
+        addPostLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        loadPosts();
+                    }
+                }
+        );
+
+        PostFrg_btnAddPost.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), AddPostActivity.class);
+            addPostLauncher.launch(intent);
+        });
     }
 
     private void loadPosts() {
@@ -83,7 +101,7 @@ public class PostsFragment extends Fragment {
                     requireActivity().finish();
                     startActivity(intent);
                 } else {
-                    Utils.showToast(getContext(), "Erro ao carregar posts", getLayoutInflater());
+                    Toast.makeText(requireActivity(), "Erro ao carregar posts", Toast.LENGTH_SHORT).show();
                     System.out.println(response.toString());
                 }
                 PostFrg_progressBar.setVisibility(View.GONE);
@@ -91,7 +109,7 @@ public class PostsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<PostsResponse> call, Throwable t) {
-                Utils.showToast(getContext(), "Erro: " + t.getMessage(), getLayoutInflater());
+                Toast.makeText(requireActivity(), "Erro: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 PostFrg_progressBar.setVisibility(View.GONE);
             }
         });

@@ -61,7 +61,6 @@ import com.example.sharetrip.auth.SignInActivity;
 import com.example.sharetrip.home.HomeActivity;
 import com.example.sharetrip.home.adapter.PostAdapter;
 import com.example.sharetrip.models.Post;
-import com.example.sharetrip.utils.Utils;
 import com.google.gson.Gson;
 
 import org.maplibre.android.MapLibre;
@@ -312,18 +311,18 @@ public class MapFragment extends Fragment {
                         }
                     } catch (Exception e) {
                         Log.e("MapFragment", "Error parsing GeoJSON", e);
-                        Utils.showToast(getContext(), "Erro ao processar marcadores", getLayoutInflater());
+                        Toast.makeText(requireActivity(), "Erro ao processar marcadores", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Log.e("MapFragment", "API response not successful: " + response.code());
-                    Utils.showToast(getContext(), "Erro ao carregar marcadores", getLayoutInflater());
+                    Toast.makeText(requireActivity(), "Erro ao processar marcadores", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<MarksResponse> call, Throwable t) {
                 Log.e("MapFragment", "API call failed", t);
-                Utils.showToast(getContext(), "Erro: " + t.getMessage(), getLayoutInflater());
+                Toast.makeText(requireActivity(), "Erro: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

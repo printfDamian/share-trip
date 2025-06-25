@@ -123,8 +123,10 @@ router.post('/', requiresToken, async (req, res) => {
             });
         }
 
+        console.log(req.userData.data.id) // 5
+
         const postData = {
-            user_id: req.user.id,
+            user_id: req.userData.data.id,
             trip_id: trip_id || null,
             location_id: location_id || null,
             title: title.trim(),
@@ -192,7 +194,7 @@ router.put('/:id', requiresToken, isOwnerId, async (req, res) => {
         }
 
         // Check if user owns the post
-        if (existingPost.user_id !== req.user.id) {
+        if (existingPost.user_id !== req.userData.data.id) {
             return res.status(403).json({
                 success: false,
                 message: "Access denied"
@@ -247,7 +249,7 @@ router.delete('/:id', requiresToken, isOwnerId, async (req, res) => {
         }
 
         // Check if user owns the post
-        if (existingPost.user_id !== req.user.id) {
+        if (existingPost.user_id !== req.userData.data.id) {
             return res.status(403).json({
                 success: false,
                 message: "Access denied"
