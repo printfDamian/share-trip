@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.sharetrip.R;
 import com.example.sharetrip.api.ApiClient;
 import com.example.sharetrip.api.post.PostsResponse;
+import com.example.sharetrip.auth.LoginActivity;
 import com.example.sharetrip.auth.SignInActivity;
 import com.example.sharetrip.home.adapter.PostAdapter;
 import com.example.sharetrip.models.Post;
@@ -50,9 +51,8 @@ public class PostsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        prefs = requireActivity().getSharedPreferences("prefs", MODE_PRIVATE);
+        prefs = requireActivity().getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
 
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_posts, container, false);
     }
 
@@ -96,12 +96,12 @@ public class PostsFragment extends Fragment {
                 } else if(response.code() == 401) {
                     Intent intent = new Intent(getContext(), SignInActivity.class);
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putString("token", "");
+                    editor.putString(LoginActivity.TOKEN, "");
                     editor.apply();
                     requireActivity().finish();
                     startActivity(intent);
                 } else {
-                    Toast.makeText(requireActivity(), "Erro ao carregar posts", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireActivity(), getContext().getString(R.string.err_load_posts), Toast.LENGTH_SHORT).show();
                     System.out.println(response.toString());
                 }
                 PostFrg_progressBar.setVisibility(View.GONE);
@@ -109,7 +109,7 @@ public class PostsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<PostsResponse> call, Throwable t) {
-                Toast.makeText(requireActivity(), "Erro: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), getContext().getString(R.string.error) + t.getMessage(), Toast.LENGTH_SHORT).show();
                 PostFrg_progressBar.setVisibility(View.GONE);
             }
         });

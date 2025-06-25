@@ -41,7 +41,7 @@ public class SignInActivity extends AppCompatActivity {
                         Intent intent = new Intent(this, LoginActivity.class);
                         loginLauncher.launch(intent);
                     } else {
-                        Toast.makeText(SignInActivity.this, "Signup failed or cancelled", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignInActivity.this, getString(R.string.signup_fail), Toast.LENGTH_SHORT).show();
                     }
                 }
         );
@@ -60,7 +60,7 @@ public class SignInActivity extends AppCompatActivity {
                         Intent intent = new Intent(this, HomeActivity.class);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(SignInActivity.this, "Login failed or cancelled", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignInActivity.this, getString(R.string.login_fail), Toast.LENGTH_SHORT).show();
                     }
                 }
         );

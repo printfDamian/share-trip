@@ -24,6 +24,12 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static final String TOKEN = "token";
+    public static final String USERNAME = "username";
+    public static final String EMAIL = "email";
+    public static final String PREFS = "prefs";
+    public static final String CONVERSATION = "conversation";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,14 +41,14 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
 
-        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(PREFS, MODE_PRIVATE);
 
         LinearLayout Login_llBack = findViewById(R.id.AddPost_llBack);
         EditText Login_inputEmail = findViewById(R.id.Login_inputEmail);
         EditText Login_inputPassword = findViewById(R.id.Login_inputPassword);
         Button Login_btnLogin = findViewById(R.id.Login_btnLogin);
 
-        String prefsEmail = prefs.getString("email", "");
+        String prefsEmail = prefs.getString(EMAIL, "");
 
         if(!prefsEmail.isEmpty()) {
             Login_inputEmail.setText(prefsEmail);
@@ -69,16 +75,14 @@ public class LoginActivity extends AppCompatActivity {
                             String token = loginResponse.getData().getToken();
                             String username = loginResponse.getData().getUsername();
                             String email = loginResponse.getData().getEmail();
-                            // Armazenar token em SharedPreferences ou passar à próxima activity
+
                             SharedPreferences.Editor editor = prefs.edit();
-                            editor.putString("token", token);
-                            editor.putString("username", username);
-                            editor.putString("email", email);
+                            editor.putString(TOKEN, token);
+                            editor.putString(USERNAME, username);
+                            editor.putString(EMAIL, email);
                             editor.apply();
 
-                            Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-
-                            // startActivity(...)
+                            Toast.makeText(LoginActivity.this, getString(R.string.login_successful), Toast.LENGTH_SHORT).show();
 
                             setResult(RESULT_OK);
                             finish();
@@ -86,14 +90,14 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(LoginActivity.this, "Erro ao fazer login", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, getString(R.string.login_error), Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<LoginResponse> call, Throwable t) {
-                    System.out.println("Erro: " + t.getMessage());
-                    Toast.makeText(LoginActivity.this, "Erro: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    System.out.println(getString(R.string.error) + t.getMessage());
+                    Toast.makeText(LoginActivity.this, getString(R.string.error) + t.getMessage(), Toast.LENGTH_SHORT).show();
                     // setResult(RESULT_CANCELED);
                     // finish();
                 }

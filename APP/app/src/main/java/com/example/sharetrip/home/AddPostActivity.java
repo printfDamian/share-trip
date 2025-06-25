@@ -48,7 +48,7 @@ public class AddPostActivity extends AppCompatActivity {
             String body = AddPost_inputBody.getText().toString().trim();
 
             if(title.isEmpty() || body.isEmpty()) {
-                Toast.makeText(this, "Fill all the fields", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.fill_all), Toast.LENGTH_SHORT).show();
             } else {
                 addPost(title, body);
             }
@@ -63,18 +63,18 @@ public class AddPostActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<AddPostResponse> call, Response<AddPostResponse> response) {
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    Toast.makeText(getApplicationContext(), "Post sent", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.post_sent), Toast.LENGTH_SHORT).show();
                     setResult(RESULT_OK);
                     finish();
                 } else {
-                    Toast.makeText(AddPostActivity.this, "Erro ao carregar posts", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddPostActivity.this, getString(R.string.err_load_posts), Toast.LENGTH_SHORT).show();
                     System.out.println(response.toString());
                 }
             }
 
             @Override
             public void onFailure(Call<AddPostResponse> call, Throwable t) {
-                Toast.makeText(AddPostActivity.this, "Erro: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddPostActivity.this, getString(R.string.error) + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

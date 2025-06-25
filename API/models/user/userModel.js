@@ -39,14 +39,12 @@ class User {
         const { name, password, active } = userData;
 
         if (active !== undefined) {
-            // When updating active status, only update name, password, and active (never email)
             const [result] = await this.connection.execute(
                 'UPDATE users SET name = ?, password = ?, active = ? WHERE id = ?',
                 [name, password, active, id]
             );
             return result.affectedRows;
         } else {
-            // Only update name and password when active is not provided
             const [result] = await this.connection.execute(
                 'UPDATE users SET name = ?, password = ? WHERE id = ?',
                 [name, password, id]

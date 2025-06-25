@@ -24,6 +24,7 @@ import com.example.sharetrip.R;
 import com.example.sharetrip.api.ApiClient;
 import com.example.sharetrip.api.chatbot.ChatbotRequest;
 import com.example.sharetrip.api.chatbot.ChatbotResponse;
+import com.example.sharetrip.auth.LoginActivity;
 import com.example.sharetrip.auth.SignInActivity;
 import com.example.sharetrip.home.adapter.ChatbotAdapter;
 import com.example.sharetrip.models.Chat;
@@ -56,7 +57,7 @@ public class ChatbotFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        prefs = requireActivity().getSharedPreferences("prefs", MODE_PRIVATE);
+        prefs = requireActivity().getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
 
         return inflater.inflate(R.layout.fragment_chatbot, container, false);
     }
@@ -74,7 +75,7 @@ public class ChatbotFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         Gson gson = new Gson();
-        String json = prefs.getString("conversation", null);
+        String json = prefs.getString(LoginActivity.CONVERSATION, null);
 
         if (json != null) {
             Type type = new TypeToken<List<Chat>>() {}.getType();
@@ -88,7 +89,7 @@ public class ChatbotFragment extends Fragment {
             clearChat();
 
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putString("conversation", null);
+            editor.putString(LoginActivity.CONVERSATION, null);
             editor.apply();
         });
 
@@ -100,7 +101,7 @@ public class ChatbotFragment extends Fragment {
                 chatFrg_promptInput.setText("");
                 askQuestion(prompt);
             } else {
-                Toast.makeText(getContext(), "Write a prompt before sending", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getContext().getString(R.string.warn_prompt_missing), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -108,7 +109,7 @@ public class ChatbotFragment extends Fragment {
     private void askQuestion(String prompt) {
         Chat userChat = new Chat(
                 1,
-                prefs.getString("username", "Username not found"),
+                prefs.getString(LoginActivity.USERNAME, getContext().getString(R.string.username_notfound)),
                 prompt,
                 getFormatedCurrentTime()
         );
@@ -128,7 +129,7 @@ public class ChatbotFragment extends Fragment {
 
                     Chat botChat = new Chat(
                             0,
-                            "Share Trip ChatBot",
+                            getContext().getString(R.string.chatbot_name),
                             botResponse,
                             getFormatedCurrentTime()
                     );
@@ -141,19 +142,19 @@ public class ChatbotFragment extends Fragment {
                     Gson gson = new Gson();
                     String jsonConversation = gson.toJson(conversation);
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putString("conversation", jsonConversation);
+                    editor.putString(LoginActivity.CONVERSATION, jsonConversation);
                     editor.apply();
 
                 } else if(response.code() == 401) {
                     Intent intent = new Intent(getContext(), SignInActivity.class);
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putString("token", "");
+                    editor.putString(LoginActivity.TOKEN, "");
                     editor.apply();
                     requireActivity().finish();
                     startActivity(intent);
 
                 } else {
-                    Toast.makeText(requireActivity(), "Error sending the prompt", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireActivity(), getContext().getString(R.string.error_send_prompt), Toast.LENGTH_SHORT).show();
                     conversation.remove(userChat);
                 }
 
@@ -162,7 +163,7 @@ public class ChatbotFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ChatbotResponse> call, Throwable t) {
-                Toast.makeText(requireActivity(), "Erro: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), getContext().getString(R.string.error) + t.getMessage(), Toast.LENGTH_SHORT).show();
                 chatFrg_progressBar.setVisibility(View.INVISIBLE);
             }
         });

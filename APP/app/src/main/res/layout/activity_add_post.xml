@@ -22,16 +22,17 @@
             android:id="@+id/imageView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/back_arrow"
             app:srcCompat="@drawable/baseline_keyboard_backspace_24" />
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:layout_weight="1"
             android:fontFamily="@font/poppins"
-            android:text="Add post"
+            android:text="@string/add_post"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -53,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:hint="Title">
+            android:hint="@string/hint_title">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/Profile_name"
@@ -67,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="48dp"
-            android:hint="Body">
+            android:hint="@string/hint_body">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/AddPost_inputBody"
@@ -81,7 +82,7 @@
             style="@style/AppButton.Primary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="POST" />
+            android:text="@string/btn_post" />
 
     </LinearLayout>
 

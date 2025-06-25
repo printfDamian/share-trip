@@ -34,7 +34,7 @@ public class SignUpActivity extends AppCompatActivity {
             return insets;
         });
 
-        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
 
         LinearLayout Signup_llBack = findViewById(R.id.AddPost_llBack);
         EditText Signup_inputName = findViewById(R.id.Profile_name);
@@ -62,10 +62,10 @@ public class SignUpActivity extends AppCompatActivity {
 
                         if (signupResponse.isSuccess()) {
                             SharedPreferences.Editor editor = prefs.edit();
-                            editor.putString("email", email);
+                            editor.putString(LoginActivity.EMAIL, email);
                             editor.apply();
 
-                            Toast.makeText(SignUpActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, getString(R.string.signup_success), Toast.LENGTH_SHORT).show();
 
                             setResult(RESULT_OK);
                             finish();
@@ -74,14 +74,14 @@ public class SignUpActivity extends AppCompatActivity {
                             Toast.makeText(SignUpActivity.this, SignupResponse.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(SignUpActivity.this, "Erro ao fazer login", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUpActivity.this, getString(R.string.login_error), Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<SignupResponse> call, Throwable t) {
-                    System.out.println("Erro: " + t.getMessage());
-                    Toast.makeText(SignUpActivity.this, "Erro: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    System.out.println(getString(R.string.error) + t.getMessage());
+                    Toast.makeText(SignUpActivity.this, getString(R.string.error) + t.getMessage(), Toast.LENGTH_SHORT).show();
 
                     // setResult(RESULT_CANCELED);
                     // finish();

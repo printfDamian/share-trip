@@ -8,9 +8,26 @@ const PointOfInterest = require('../../models/map/pointOfInterestModel');
 router.get('/markers', requiresToken, async (req, res) => {
     try {
         const limit = parseInt(req.query.limit) || 1000;
-        const pois = await PointOfInterest.findAllWithLocationLimited(limit);
 
-        // Filter out entries without valid coordinates
+
+        const { north, south, east, west } = req.query;
+
+        let pois;
+        if (north && south && east && west) {
+
+            pois = await PointOfInterest.findWithinBoundingBox(
+                parseFloat(north),
+                parseFloat(south),
+                parseFloat(east),
+                parseFloat(west),
+                limit
+            );
+        } else {
+
+            pois = await PointOfInterest.findAllWithLocationLimited(limit);
+        }
+
+
         const validPois = pois.filter(poi =>
             poi.latitude && poi.longitude &&
             !isNaN(parseFloat(poi.latitude)) &&

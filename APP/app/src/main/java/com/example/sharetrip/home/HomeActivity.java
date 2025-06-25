@@ -70,7 +70,7 @@ public class HomeActivity extends AppCompatActivity {
             return true;
         });
 
-        prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        prefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
 
         profileLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -78,7 +78,7 @@ public class HomeActivity extends AppCompatActivity {
                     if (result.getResultCode() == ProfileActivity.RESULT_LOGOUT) {
                         Intent intent = new Intent(this, SignInActivity.class);
                         SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("token", "");
+                        editor.putString(LoginActivity.TOKEN, "");
                         editor.apply();
                         finish();
                         startActivity(intent);
@@ -108,7 +108,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private String getToken() {
-        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
-        return prefs.getString("token", "");
+        SharedPreferences prefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
+        return prefs.getString(LoginActivity.TOKEN, "");
     }
 }

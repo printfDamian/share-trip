@@ -193,7 +193,7 @@ router.put('/:id', requiresToken, isOwnerId, async (req, res) => {
             });
         }
 
-        // Check if user owns the post
+
         if (existingPost.user_id !== req.userData.data.id) {
             return res.status(403).json({
                 success: false,
@@ -248,7 +248,7 @@ router.delete('/:id', requiresToken, isOwnerId, async (req, res) => {
             });
         }
 
-        // Check if user owns the post
+
         if (existingPost.user_id !== req.userData.data.id) {
             return res.status(403).json({
                 success: false,

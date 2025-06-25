@@ -115,6 +115,30 @@ class PointOfInterest {
         const [result] = await this.connection.execute('DELETE FROM points_of_interest WHERE id = ?', [id]);
         return result.affectedRows;
     }
+
+    async findWithinBoundingBox(north, south, east, west, limit = 1000) {
+        const [rows] = await this.connection.execute(`
+            SELECT 
+                poi.id,
+                poi.name,
+                poi.description,
+                poi.created_at,
+                t.name as type_name,
+                tr.title as trip_title,
+                l.latitude,
+                l.longitude,
+                l.address
+            FROM points_of_interest poi 
+            JOIN types t ON poi.type_id = t.id 
+            JOIN trips tr ON poi.trip_id = tr.id 
+            JOIN location l ON poi.id = l.poi_id
+            WHERE l.latitude BETWEEN ? AND ? 
+            AND l.longitude BETWEEN ? AND ?
+            ORDER BY poi.created_at DESC
+            LIMIT ?
+        `, [south, north, west, east, limit]);
+        return rows;
+    }
 }
 
 module.exports = new PointOfInterest();

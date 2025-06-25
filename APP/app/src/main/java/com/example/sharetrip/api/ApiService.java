@@ -55,4 +55,12 @@ public interface ApiService {
     @Headers("Content-Type: application/json")
     @PUT("users")
     Call<SignupResponse> updateUser(@Body UpdateRequest updateRequest);
+
+    @GET("map/markers")
+    Call<MarksResponse> getMarkersInBounds(
+            @Query("north") double north,
+            @Query("south") double south,
+            @Query("east") double east,
+            @Query("west") double west,
+            @Query("limit") int limit);
 }

@@ -43,7 +43,7 @@ async function register(req, res) {
             });
         }
 
-        if (password.length < 8) { // Alterar caso seja necessário acrescentar mais validações
+        if (password.length < 8) {
             return res.status(400).json({
                 success: false,
                 message: "Password must be at least 8 characters long"
@@ -77,10 +77,10 @@ async function register(req, res) {
 
         // Verificar sucesso
         if (userId) {
-            // Get the created user (without password)
+
             const newUser = await User.findById(userId);
             if (newUser) {
-                delete newUser.password; // Remove password from response
+                delete newUser.password;
             }
 
             return res.status(201).json({

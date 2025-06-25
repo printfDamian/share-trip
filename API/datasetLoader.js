@@ -3,7 +3,7 @@ const csv = require('csv-parser');
 const mysql = require('mysql2/promise');
 const dbConfig = require('./config/dbConfig');
 
-// Type mapping from CSV to database types
+
 const typeMapping = {
     'restaurant': 1,
     'hotel': 2,
@@ -30,7 +30,7 @@ async function processBatch(connection, batchData) {
 
         for (const poi of batchData) {
             try {
-                // Insert POI
+
                 const [result] = await connection.execute(
                     `INSERT INTO points_of_interest (trip_id, type_id, name, description) 
                      VALUES (?, ?, ?, ?)`,
@@ -39,14 +39,12 @@ async function processBatch(connection, batchData) {
 
                 const poiId = result.insertId;
 
-                // Insert location data
                 await connection.execute(
                     `INSERT INTO location (poi_id, latitude, longitude, address) 
                      VALUES (?, ?, ?, ?)`,
                     [poiId, poi.latitude, poi.longitude, poi.address]
                 );
 
-                // If there's an image URL, insert it
                 if (poi.url && (poi.url.includes('image') || poi.url.includes('.jpg') || poi.url.includes('.png'))) {
                     await connection.execute(
                         `INSERT INTO images (poi_id, url) VALUES (?, ?)`,
@@ -56,7 +54,7 @@ async function processBatch(connection, batchData) {
 
             } catch (error) {
                 console.error(`Error inserting POI "${poi.name}": ${error.message}`);
-                throw error; // Re-throw to trigger rollback
+                throw error;
             }
         }
 
@@ -74,11 +72,10 @@ async function importPOIData() {
     let connection;
 
     try {
-        // Connect to database
+
         connection = await mysql.createConnection(dbConfig);
         console.log('Connected to database');
 
-        // Get existing trip IDs to randomly assign POIs to trips
         const [trips] = await connection.execute('SELECT id FROM trips');
         const tripIds = trips.map(trip => trip.id);
 
@@ -89,19 +86,19 @@ async function importPOIData() {
 
         let processedCount = 0;
         let errorCount = 0;
-        const batchSize = 100; // Reduced batch size for better memory management
+        const batchSize = 100;
         let batch = [];
         let allData = [];
 
         console.log('Reading CSV file...');
 
-        // First, read all data into memory
+    
         await new Promise((resolve, reject) => {
             fs.createReadStream('../DB/pointsOfInterestDataSet.csv')
                 .pipe(csv())
                 .on('data', (row) => {
                     try {
-                        // Validate required fields
+                  
                         if (!row.title || !row.latitude || !row.longitude) {
                             return;
                         }
@@ -109,22 +106,22 @@ async function importPOIData() {
                         const lat = parseFloat(row.latitude);
                         const lng = parseFloat(row.longitude);
 
-                        // Validate coordinates
+          
                         if (isNaN(lat) || isNaN(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) {
                             return;
                         }
 
-                        // Map type to database type ID
+                        
                         const typeKey = row.type ? row.type.toLowerCase() : 'default';
                         const typeId = typeMapping[typeKey] || typeMapping['default'];
 
-                        // Randomly assign to a trip
+                        
                         const tripId = tripIds[Math.floor(Math.random() * tripIds.length)];
 
                         const poiData = {
                             trip_id: tripId,
                             type_id: typeId,
-                            name: row.title.substring(0, 150), // Limit to 150 chars
+                            name: row.title.substring(0, 150),
                             description: row.description || row.alt || null,
                             latitude: lat,
                             longitude: lng,
@@ -155,7 +152,7 @@ async function importPOIData() {
                 });
         });
 
-        // Now process all data in batches
+        
         console.log('Starting database insertion...');
 
         for (let i = 0; i < allData.length; i += batchSize) {
@@ -189,7 +186,7 @@ async function importPOIData() {
     }
 }
 
-// Add additional POI types that might be in the dataset
+
 async function addAdditionalTypes() {
     let connection;
 
@@ -231,7 +228,7 @@ async function addAdditionalTypes() {
     }
 }
 
-// Run the import
+
 async function main() {
     console.log('Starting POI data import...');
     console.log('Adding additional types first...');

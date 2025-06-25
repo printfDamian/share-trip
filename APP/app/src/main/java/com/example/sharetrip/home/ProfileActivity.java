@@ -47,7 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
             return insets;
         });
 
-        prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        prefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
 
         LinearLayout profile_llBack = findViewById(R.id.Profile_llBack);
         TextInputEditText profile_inputName = findViewById(R.id.Profile_inputName);
@@ -96,7 +96,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         prefsUsername = username;
 
-        if(username.equals(prefs.getString("username", "Name not found"))) {
+        if(username.equals(prefs.getString(LoginActivity.USERNAME, getString(R.string.username_notfound)))) {
             username = null;
         }
 
@@ -118,24 +118,24 @@ public class ProfileActivity extends AppCompatActivity {
 
                     if (updateResponse.isSuccess()) {
                         SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("username", prefsUsername);
+                        editor.putString(LoginActivity.USERNAME, prefsUsername);
                         editor.apply();
 
-                        Toast.makeText(ProfileActivity.this, "Update successful!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProfileActivity.this, getString(R.string.update_success), Toast.LENGTH_SHORT).show();
 
                         setEditMode(profile_inputName, profile_inputEmail, profile_inputPassword, profile_CardSave, false);
                     } else {
                         Toast.makeText(ProfileActivity.this, updateResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(ProfileActivity.this, "Erro ao fazer login", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileActivity.this, getString(R.string.login_error), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<SignupResponse> call, Throwable t) {
-                System.out.println("Erro: " + t.getMessage());
-                Toast.makeText(ProfileActivity.this, "Erro: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                System.out.println(getString(R.string.error) + t.getMessage());
+                Toast.makeText(ProfileActivity.this, getString(R.string.error) + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -145,25 +145,24 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    // Apagado com sucesso
-                    Toast.makeText(ProfileActivity.this, "Conta eliminada com sucesso!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileActivity.this, getString(R.string.acc_eliminated), Toast.LENGTH_SHORT).show();
                     setResult(RESULT_LOGOUT);
                     finish();
                 } else {
-                    Toast.makeText(ProfileActivity.this, "Erro ao eliminar conta.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileActivity.this, getString(R.string.err_acc_elimin), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(ProfileActivity.this, "Erro de rede: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfileActivity.this, getString(R.string.error) + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void loadInfo(TextInputEditText profile_inputName, TextInputEditText profile_inputEmail, TextInputEditText profile_inputPassword) {
-        profile_inputName.setText(prefs.getString("username", "Name not found"));
-        profile_inputEmail.setText(prefs.getString("email", "Email not found"));
+        profile_inputName.setText(prefs.getString(LoginActivity.USERNAME, getString(R.string.username_notfound)));
+        profile_inputEmail.setText(prefs.getString(LoginActivity.EMAIL, getString(R.string.email_notfound)));
         profile_inputPassword.setText("********");
     }
 
